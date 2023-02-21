@@ -4,7 +4,10 @@
     <option name="originalFiles">
       <list>
         <option value="$PROJECT_DIR$/sp5-chap02/pom.xml" />
-        <option value="$PROJECT_DIR$/sp5-chap03/pom.xml" />
+        <option value="$PROJECT_DIR$/sp5-chap04/pom.xml" />
+        <option value="$PROJECT_DIR$/sp5-chap05/pom.xml" />
+        <option value="$PROJECT_DIR$/sp5-chap06/pom.xml" />
+        <option value="$PROJECT_DIR$/sp5-chap07/pom.xml" />
       </list>
     </option>
   </component>

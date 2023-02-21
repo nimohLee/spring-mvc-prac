@@ -3,7 +3,10 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/sp5-chap02/sp5-chap02.iml" filepath="$PROJECT_DIR$/sp5-chap02/sp5-chap02.iml" />
-      <module fileurl="file://$PROJECT_DIR$/sp5-chap03/sp5-chap03.iml" filepath="$PROJECT_DIR$/sp5-chap03/sp5-chap03.iml" />
+      <module fileurl="file://$PROJECT_DIR$/sp5-chap04/sp5-chap04.iml" filepath="$PROJECT_DIR$/sp5-chap04/sp5-chap04.iml" />
+      <module fileurl="file://$PROJECT_DIR$/sp5-chap05/sp5-chap05.iml" filepath="$PROJECT_DIR$/sp5-chap05/sp5-chap05.iml" />
+      <module fileurl="file://$PROJECT_DIR$/sp5-chap06/sp5-chap06.iml" filepath="$PROJECT_DIR$/sp5-chap06/sp5-chap06.iml" />
+      <module fileurl="file://$PROJECT_DIR$/sp5-chap07/sp5-chap07.iml" filepath="$PROJECT_DIR$/sp5-chap07/sp5-chap07.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/spring5fs.iml" filepath="$PROJECT_DIR$/.idea/spring5fs.iml" />
     </modules>
   </component>
