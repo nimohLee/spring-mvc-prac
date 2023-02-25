@@ -10,17 +10,13 @@
         <module name="sp5-chap05" />
         <module name="sp5-chap06" />
         <module name="sp5-chap07" />
+        <module name="sp5-chap08" />
         <module name="sp5-chap02" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="sp5-chap02" target="11" />
       <module name="sp5-chap02 (1)" target="11" />
       <module name="sp5-chap03" target="11" />
-      <module name="sp5-chap04" target="11" />
-      <module name="sp5-chap05" target="11" />
-      <module name="sp5-chap06" target="11" />
-      <module name="sp5-chap07" target="11" />
     </bytecodeTargetLevel>
   </component>
 </project>
