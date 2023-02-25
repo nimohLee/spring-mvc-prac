@@ -1,11 +1,11 @@
 package spring;
 
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.core.RowMapper;
 
 import javax.sql.DataSource;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
@@ -54,10 +54,34 @@ public class MemberDao {
         return results;
     }
 
+    public int count() {
+        Integer count = jdbcTemplate.queryForObject("SELECT COUNT(*) FROM MEMBER", Integer.class);
+        return count;
+    }
+
     public void insert(Member member) {
     }
 
     public void update(Member member) {
+        jdbcTemplate.update(
+                "UPDATE MEMBER set NAME = ?, PASSWORD = ? WHERE EMAIL = ?",
+                member.getName(), member.getPassword(), member.getEmail()
+        );
+    }
 
+    public void prepareUpdate(Member member) {
+        jdbcTemplate.update(new PreparedStatementCreator() {
+            @Override
+            public PreparedStatement createPreparedStatement(Connection con) throws SQLException {
+                PreparedStatement pstmt = con.prepareStatement(
+                        "INSERT INTO MEMBER (EMAIL, PASSWORD, NAME, REGDATE) values (?, ?, ?, ?)"
+                );
+                pstmt.setString(1, member.getEmail());
+                pstmt.setString(2, member.getPassword());
+                pstmt.setString(3, member.getName());
+                pstmt.setTimestamp(4, Timestamp.valueOf(member.getRegisterDateTime()));
+                return pstmt;
+            }
+        })
     }
 }
