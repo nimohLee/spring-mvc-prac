@@ -3,6 +3,7 @@ package spring;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
 
 import javax.sql.DataSource;
 import java.sql.*;
@@ -21,7 +22,7 @@ public class MemberDao {
 
     public Member selectByEmail(String email) {
         List<Member> results = jdbcTemplate.query(
-                "SELECT * FROM MEMBER WHERE EMAIL = ?",
+                "select * from MEMBER WHERE EMAIL = ?",
                 (rs, rowNum) -> {
                     Member member = new Member(
                             rs.getString("EMAIL"),
@@ -60,6 +61,20 @@ public class MemberDao {
     }
 
     public void insert(Member member) {
+        GeneratedKeyHolder keyHolder = new GeneratedKeyHolder(); // 자동 생성된 키 값을 구해주는 클래스
+        jdbcTemplate.update((Connection con)-> {
+                PreparedStatement pstmt = con.prepareStatement(
+                        "INSERT INTO MEMBER (EMAIL, PASSWORD, NAME, REGDATE) values (?, ?, ?, ?)", new String[] {"ID"}
+                );
+                pstmt.setString(1, member.getEmail());
+                pstmt.setString(2, member.getPassword());
+                pstmt.setString(3, member.getName());
+                pstmt.setTimestamp(4, Timestamp.valueOf(member.getRegisterDateTime()));
+                return pstmt;
+        },keyHolder);
+        Number keyValue = keyHolder.getKey();
+        member.setId(keyValue.longValue());
+
     }
 
     public void update(Member member) {
@@ -67,21 +82,5 @@ public class MemberDao {
                 "UPDATE MEMBER set NAME = ?, PASSWORD = ? WHERE EMAIL = ?",
                 member.getName(), member.getPassword(), member.getEmail()
         );
-    }
-
-    public void prepareUpdate(Member member) {
-        jdbcTemplate.update(new PreparedStatementCreator() {
-            @Override
-            public PreparedStatement createPreparedStatement(Connection con) throws SQLException {
-                PreparedStatement pstmt = con.prepareStatement(
-                        "INSERT INTO MEMBER (EMAIL, PASSWORD, NAME, REGDATE) values (?, ?, ?, ?)"
-                );
-                pstmt.setString(1, member.getEmail());
-                pstmt.setString(2, member.getPassword());
-                pstmt.setString(3, member.getName());
-                pstmt.setTimestamp(4, Timestamp.valueOf(member.getRegisterDateTime()));
-                return pstmt;
-            }
-        })
     }
 }

@@ -9,9 +9,10 @@
         <module name="sp5-chap04" />
         <module name="sp5-chap05" />
         <module name="sp5-chap06" />
+        <module name="sp5-chap02" />
         <module name="sp5-chap07" />
         <module name="sp5-chap08" />
-        <module name="sp5-chap02" />
+        <module name="sp5-chap09" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
