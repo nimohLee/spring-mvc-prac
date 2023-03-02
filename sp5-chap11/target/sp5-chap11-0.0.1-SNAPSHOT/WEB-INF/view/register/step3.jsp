@@ -6,12 +6,18 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <html>
 <head>
-    <title>회원가입</title>
+    <title><spring:message code="member.register"></title>
 </head>
 <body>
-    <p><strong>${registerRequest.name}</strong>회원 가입을 완료했습니다.</p> <!-- 커맨드 객체의 첫 글자를 소문자로 바꾼 클래스 이름 -->
-    <p><a href="<c:url value='/main'/>">[첫 화면 이동]</a></p>
+    <p>
+        <spring:message code="register.btn"
+                        arguments="${registerRequest.name}" />
+    </p>
+    <p>
+        <a href="<c:url value='/main'/>">[<spring:message code="go.main">]</a>
+    </p>
 </body>
 </html>
