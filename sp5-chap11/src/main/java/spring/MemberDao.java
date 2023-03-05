@@ -6,6 +6,7 @@ import org.springframework.jdbc.support.GeneratedKeyHolder;
 
 import javax.sql.DataSource;
 import java.sql.*;
+import java.time.LocalDateTime;
 import java.util.List;
 
 public class MemberDao {
@@ -16,19 +17,24 @@ public class MemberDao {
         this.jdbcTemplate = new JdbcTemplate(dataSource);
     }
 
-    public Member selectByEmail(String email) {
-        List<Member> results = jdbcTemplate.query(
-                "select * from MEMBER WHERE EMAIL = ?",
-                (rs, rowNum) -> {
+    private RowMapper<Member> memberRowMapper =
+            new RowMapper<Member>() {
+                @Override
+                public Member mapRow(ResultSet rs, int i) throws SQLException {
                     Member member = new Member(
                             rs.getString("EMAIL"),
                             rs.getString("PASSWORD"),
                             rs.getString("NAME"),
                             rs.getTimestamp("REGDATE").toLocalDateTime()
                     );
-                    member.setId(rs.getLong("ID"));
                     return member;
-                },
+                }
+            };
+
+    public Member selectByEmail(String email) {
+        List<Member> results = jdbcTemplate.query(
+                "select * from MEMBER WHERE EMAIL = ?",
+                memberRowMapper,
                 email
         );
         return results.isEmpty() ? null : results.get(0);
@@ -36,18 +42,7 @@ public class MemberDao {
 
     public List<Member> selectAll() {
         List<Member> results = jdbcTemplate.query("SELECT * FROM MEMBER",
-                new RowMapper<Member>() {
-            public Member mapRow(ResultSet rs, int rowNum) throws SQLException{
-                Member member = new Member(
-                        rs.getString("EMAIL"),
-                        rs.getString("PASSWORD"),
-                        rs.getString("NAME"),
-                        rs.getTimestamp("REGDATE").toLocalDateTime()
-                );
-                return member;
-            }
-
-                });
+                memberRowMapper);
         return results;
     }
 
@@ -78,5 +73,24 @@ public class MemberDao {
                 "UPDATE MEMBER set NAME = ?, PASSWORD = ? WHERE EMAIL = ?",
                 member.getName(), member.getPassword(), member.getEmail()
         );
+    }
+
+    public List<Member> selectByRegDate(
+            LocalDateTime from, LocalDateTime to
+    ) {
+        List<Member> results = jdbcTemplate.query(
+                "select * from MEMBER where REGDATE between ? and ? " +
+                        "order by REGDATE desc",
+                memberRowMapper, from, to
+        );
+        return results;
+    }
+
+    public Member selectById(Long memId) {
+        List<Member> results = jdbcTemplate.query(
+                "select * from MEMBER WHERE ID = ?",
+                memberRowMapper, memId
+        );
+        return results.isEmpty() ? null : results.get(0);
     }
 }
